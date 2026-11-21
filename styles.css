@@ -1304,10 +1304,11 @@ body::before {
 }
 
 .partner-logo-img.estrella-img {
-  max-height: 54px;
-  width: 54px;
+  max-height: 52px;
+  max-width: 90px;
+  width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(225, 6, 0, 0.45));
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
 }
 
 .partner-logo-img.michelin-img {
