@@ -984,31 +984,33 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 950px;
+  max-width: 1000px;
   width: 100%;
 }
 
 .showcase-bike-img {
   width: 100%;
-  max-width: 900px;
+  max-width: 960px;
   height: auto;
   display: block;
   object-fit: cover;
-  border-radius: 16px;
-  /* Smooth fade-to-dark using CSS mask — blends edges into the dark background */
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(118, 38, 156, 0.15);
+  /* Gentle edge fade to seamlessly merge with the dark section backdrop */
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 6%, black 88%, transparent 100%);
+    linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   -webkit-mask-composite: destination-in;
   mask-image:
-    linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 6%, black 88%, transparent 100%);
+    linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   mask-composite: intersect;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
 }
 
 .showcase-bike-wrap:hover .showcase-bike-img {
-  transform: translateY(-4px) scale(1.01);
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.85), 0 0 50px rgba(225, 6, 0, 0.22);
 }
 
 .showcase-caption {
