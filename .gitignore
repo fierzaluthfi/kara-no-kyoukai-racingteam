@@ -9,3 +9,11 @@ shell-rimula.png
 rsmx135-isolated.jpg
 
 
+
+remove-bg.mjs
+composite-bg.ps1
+rsmx135-transparent-real.png
+rsmx135-showcase-final.jpg
+rsmx135-isolated.jpg
+package.json
+package-lock.json
