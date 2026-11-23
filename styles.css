@@ -1,5 +1,6 @@
 /* =====================================================================
    KARA NO KYOUKAI RACING TEAM - Official Web Prototype (Red Bull Aesthetic)
+   Enhanced with Lenis Smooth Scroll, GSAP, and ScrollTrigger Motion
    ===================================================================== */
 
 :root {
@@ -22,10 +23,31 @@
   --font-body: 'Plus Jakarta Sans', sans-serif;
   --font-kanji: 'Noto Serif JP', serif;
   
-  --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   --shadow-racing: 0 10px 30px rgba(0, 0, 0, 0.6);
-  --shadow-red-glow: 0 0 25px rgba(225, 6, 0, 0.4);
-  --shadow-violet-glow: 0 0 25px rgba(155, 48, 217, 0.35);
+  --shadow-red-glow: 0 0 25px rgba(225, 6, 0, 0.45);
+  --shadow-violet-glow: 0 0 25px rgba(155, 48, 217, 0.4);
+}
+
+/* ================= Lenis Smooth Scroll Specifications ================= */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 * {
@@ -35,7 +57,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
 }
 
@@ -59,8 +80,8 @@ body::before {
   pointer-events: none;
   background: repeating-linear-gradient(
     -45deg,
-    rgba(255, 255, 255, 0.015) 0px,
-    rgba(255, 255, 255, 0.015) 1px,
+    rgba(255, 255, 255, 0.012) 0px,
+    rgba(255, 255, 255, 0.012) 1px,
     transparent 1px,
     transparent 6px
   );
@@ -153,6 +174,11 @@ body::before {
   gap: 14px;
   text-decoration: none;
   color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.brand-link:hover {
+  transform: scale(1.02);
 }
 
 .brand-logo {
@@ -164,6 +190,12 @@ body::before {
   border-radius: 4px;
   background: #110e1c;
   padding: 2px;
+  transition: var(--transition);
+}
+
+.brand-link:hover .brand-logo {
+  border-color: var(--color-racing-red);
+  box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
 }
 
 .brand-text {
@@ -206,6 +238,7 @@ body::before {
   transition: var(--transition);
   position: relative;
   padding: 6px 0;
+  cursor: pointer;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -446,6 +479,14 @@ body::before {
 .stat-box {
   display: flex;
   flex-direction: column;
+  padding: 8px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.stat-box:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-2px);
 }
 
 .stat-number {
@@ -480,6 +521,9 @@ body::before {
   padding: 12px;
   box-shadow: var(--shadow-racing);
   overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform;
 }
 
 .hero-showcase-frame::before {
@@ -508,11 +552,11 @@ body::before {
   object-fit: cover;
   border-radius: 4px;
   display: block;
-  transition: var(--transition);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-showcase-frame:hover .hero-featured-img {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .hero-img-badge {
@@ -607,6 +651,7 @@ body::before {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: var(--shadow-racing);
+  perspective: 1200px;
 }
 
 .pilot-visual {
@@ -641,11 +686,11 @@ body::before {
   position: relative;
   z-index: 2;
   filter: drop-shadow(0 10px 30px rgba(92, 30, 122, 0.6));
-  transition: var(--transition);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .pilot-visual:hover .pilot-silhouette {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .pilot-quote-box {
@@ -757,6 +802,8 @@ body::before {
   height: 100%;
   background: linear-gradient(90deg, var(--color-knk-violet-bright), var(--color-racing-red));
   border-radius: 3px;
+  width: 0%; /* Animated smoothly by GSAP ScrollTrigger */
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .matrix-val {
@@ -797,6 +844,7 @@ body::before {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  perspective: 1000px;
 }
 
 .machine-card {
@@ -804,9 +852,11 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 32px 28px;
-  transition: var(--transition);
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .machine-card::before {
@@ -821,10 +871,9 @@ body::before {
 }
 
 .machine-card:hover {
-  transform: translateY(-5px);
   background: var(--color-bg-card-hover);
-  border-color: rgba(225, 6, 0, 0.35);
-  box-shadow: var(--shadow-racing);
+  border-color: rgba(225, 6, 0, 0.45);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(225, 6, 0, 0.25);
 }
 
 .machine-card:hover::before {
@@ -834,6 +883,12 @@ body::before {
 .card-icon {
   font-size: 2rem;
   margin-bottom: 16px;
+  display: inline-block;
+  transition: transform 0.4s ease;
+}
+
+.machine-card:hover .card-icon {
+  transform: scale(1.15) rotate(5deg);
 }
 
 .machine-card h3 {
@@ -850,7 +905,7 @@ body::before {
   line-height: 1.6;
 }
 
-/* ================= Partnership Section (New) ================= */
+/* ================= Partnership Section ================= */
 .partners-section {
   background: linear-gradient(180deg, #070b12 0%, #0a111e 100%);
   border-top: 1px solid var(--color-dark-border);
@@ -861,6 +916,7 @@ body::before {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 24px;
+  perspective: 1000px;
 }
 
 .partner-card {
@@ -868,11 +924,13 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 28px 24px;
-  transition: var(--transition);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .partner-card::before {
@@ -887,10 +945,9 @@ body::before {
 }
 
 .partner-card:hover {
-  transform: translateY(-4px);
   background: var(--color-bg-card-hover);
-  border-color: rgba(225, 6, 0, 0.35);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  border-color: rgba(225, 6, 0, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 18px rgba(92, 30, 122, 0.3);
 }
 
 .partner-card:hover::before {
@@ -963,7 +1020,7 @@ body::before {
   align-self: flex-start;
 }
 
-/* ================= 2026 Gallery Section (Main User Feature) ================= */
+/* ================= 2026 Gallery Section ================= */
 .gallery-section {
   background: #05080e;
   border-top: 1px solid var(--color-dark-border);
@@ -1014,6 +1071,7 @@ body::before {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 28px;
+  perspective: 1000px;
 }
 
 .gallery-card {
@@ -1021,17 +1079,18 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   overflow: hidden;
-  transition: var(--transition);
   display: flex;
   flex-direction: column;
   cursor: pointer;
   position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gallery-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(225, 6, 0, 0.4);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  border-color: rgba(225, 6, 0, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(225, 6, 0, 0.3);
 }
 
 .card-img-wrap {
@@ -1188,13 +1247,14 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   padding: 20px 24px;
-  transition: var(--transition);
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
 }
 
 .race-row:hover {
   border-color: rgba(225, 6, 0, 0.4);
-  transform: translateX(6px);
   background: var(--color-bg-card-hover);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(225, 6, 0, 0.2);
 }
 
 .race-round {

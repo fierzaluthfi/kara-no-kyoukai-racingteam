@@ -1,15 +1,64 @@
 /**
  * KARA NO KYOUKAI RACING TEAM - Official Web Prototype JS
  * Machine Code: RSMX135
+ * Powered by Lenis Smooth Scroll, GSAP 3, and ScrollTrigger
  * Features:
- * - Dynamic Gallery Filtering (All, Track & Circuit, Paddock & Meet, Livery & Branding)
- * - Lightbox Modal with Next/Previous & Keyboard navigation
- * - Sticky Navbar & Mobile Hamburger Menu
- * - Interactive Telemetry & Smooth Scrolling
+ * - Ultra-Smooth Momentum Scrolling (Lenis)
+ * - Cinematic GSAP ScrollTrigger Entrance Animations
+ * - 3D Magnetic Card Tilt Motion & Shimmer
+ * - Dynamic Gallery Filtering & Responsive Lightbox
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Sticky Navbar on Scroll
+  // =========================================================================
+  // 1. Lenis Smooth Scroll Initialization
+  // =========================================================================
+  let lenis;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+      touchMultiplier: 1.8,
+    });
+
+    // Synchronize Lenis with GSAP ScrollTrigger
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    }
+  }
+
+  // Smooth Anchor Navigation via Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        if (lenis) {
+          lenis.scrollTo(targetElement, { offset: -70, duration: 1.3 });
+        } else {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  // =========================================================================
+  // 2. Sticky Navbar on Scroll
+  // =========================================================================
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
@@ -19,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 2. Mobile Menu Toggle
+  // Mobile Menu Toggle
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
   if (menuToggle && navMenu) {
@@ -28,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.classList.toggle('active');
     });
 
-    // Close menu when clicking nav links
     const navLinks = navMenu.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
       link.addEventListener('click', () => {
@@ -38,13 +86,177 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Gallery Filtering
+  // =========================================================================
+  // 3. GSAP & ScrollTrigger Animations
+  // =========================================================================
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero Section Reveal Animation
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    heroTl
+      .from('.hero-badge', { opacity: 0, y: -25, duration: 0.8, delay: 0.2 })
+      .from('.hero-jp-kanji', { opacity: 0, y: 20, duration: 0.7 }, '-=0.4')
+      .from('.hero-main-title', { opacity: 0, y: 35, duration: 0.9 }, '-=0.5')
+      .from('.hero-sub-title', { opacity: 0, y: 25, duration: 0.7 }, '-=0.6')
+      .from('.hero-desc', { opacity: 0, y: 20, duration: 0.8 }, '-=0.5')
+      .from('.hero-ctas .btn', { opacity: 0, y: 20, stagger: 0.15, duration: 0.7 }, '-=0.5')
+      .from('.hero-stats .stat-box', { opacity: 0, y: 20, stagger: 0.1, duration: 0.7 }, '-=0.4')
+      .from('.hero-showcase-frame', { opacity: 0, scale: 0.92, x: 40, duration: 1.1, ease: 'power3.out' }, '-=1');
+
+    // Section Headers Reveal
+    gsap.utils.toArray('.section-header').forEach(header => {
+      gsap.from(header.children, {
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 35,
+        stagger: 0.12,
+        duration: 0.85,
+        ease: 'power3.out'
+      });
+    });
+
+    // Pilot Card & Stats Reveal
+    gsap.from('.pilot-visual', {
+      scrollTrigger: {
+        trigger: '.pilot-card-wrapper',
+        start: 'top 82%',
+      },
+      opacity: 0,
+      x: -40,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    gsap.from('.pilot-info-panel', {
+      scrollTrigger: {
+        trigger: '.pilot-card-wrapper',
+        start: 'top 82%',
+      },
+      opacity: 0,
+      x: 40,
+      duration: 1,
+      ease: 'power3.out'
+    });
+
+    // Animate Driver Stats Bars on scroll
+    ScrollTrigger.create({
+      trigger: '.driver-stats-matrix',
+      start: 'top 85%',
+      onEnter: () => {
+        document.querySelectorAll('.matrix-bar .fill').forEach(bar => {
+          const targetWidth = bar.style.width || '95%';
+          bar.style.width = '0%';
+          setTimeout(() => {
+            bar.style.width = targetWidth;
+          }, 100);
+        });
+      }
+    });
+
+    // Machine Cards Staggered Entrance
+    gsap.from('.machine-card', {
+      scrollTrigger: {
+        trigger: '.machine-grid',
+        start: 'top 82%',
+      },
+      opacity: 0,
+      y: 50,
+      stagger: 0.16,
+      duration: 0.9,
+      ease: 'power3.out'
+    });
+
+    // Partner Cards Staggered Entrance
+    gsap.from('.partner-card', {
+      scrollTrigger: {
+        trigger: '.partners-grid',
+        start: 'top 82%',
+      },
+      opacity: 0,
+      y: 40,
+      scale: 0.96,
+      stagger: 0.08,
+      duration: 0.8,
+      ease: 'power3.out'
+    });
+
+    // Gallery Cards Staggered Entrance
+    gsap.from('.gallery-card', {
+      scrollTrigger: {
+        trigger: '.gallery-grid',
+        start: 'top 85%',
+      },
+      opacity: 0,
+      y: 45,
+      stagger: 0.1,
+      duration: 0.85,
+      ease: 'power3.out'
+    });
+
+    // Calendar Rows Staggered Entrance
+    gsap.from('.race-row', {
+      scrollTrigger: {
+        trigger: '.calendar-list',
+        start: 'top 85%',
+      },
+      opacity: 0,
+      x: -35,
+      stagger: 0.14,
+      duration: 0.8,
+      ease: 'power3.out'
+    });
+
+    // =========================================================================
+    // 4. Interactive 3D Card Hover Tilt Motion
+    // =========================================================================
+    const tiltElements = document.querySelectorAll(
+      '.gallery-card, .machine-card, .partner-card, .hero-showcase-frame'
+    );
+
+    tiltElements.forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotX = (y / (rect.height / 2)) * -6;
+        const rotY = (x / (rect.width / 2)) * 6;
+
+        gsap.to(el, {
+          rotateX: rotX,
+          rotateY: rotY,
+          transformPerspective: 1000,
+          duration: 0.3,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        });
+      });
+
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, {
+          rotateX: 0,
+          rotateY: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          overwrite: 'auto'
+        });
+      });
+    });
+  }
+
+  // =========================================================================
+  // 5. Gallery Filtering
+  // =========================================================================
   const filterBtns = document.querySelectorAll('.filter-btn');
   const galleryCards = document.querySelectorAll('.gallery-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Toggle active button
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
@@ -54,22 +266,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardCategory = card.getAttribute('data-category');
         if (filterValue === 'all' || cardCategory === filterValue) {
           card.style.display = 'flex';
-          setTimeout(() => {
+          if (typeof gsap !== 'undefined') {
+            gsap.to(card, { opacity: 1, scale: 1, y: 0, duration: 0.4 });
+          } else {
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 50);
+          }
         } else {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-          setTimeout(() => {
+          if (typeof gsap !== 'undefined') {
+            gsap.to(card, {
+              opacity: 0,
+              scale: 0.94,
+              y: 20,
+              duration: 0.3,
+              onComplete: () => {
+                card.style.display = 'none';
+              }
+            });
+          } else {
             card.style.display = 'none';
-          }, 200);
+          }
         }
       });
+
+      // Refresh ScrollTrigger calculations after filter layout shift
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(() => ScrollTrigger.refresh(), 350);
+      }
     });
   });
 
-  // 4. Lightbox Modal
+  // =========================================================================
+  // 6. Lightbox Modal with Lenis Pausing
+  // =========================================================================
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxBackdrop = document.getElementById('lightboxBackdrop');
   const lightboxClose = document.getElementById('lightboxClose');
@@ -100,11 +328,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lightboxModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    if (lenis) lenis.stop();
   }
 
   function closeLightbox() {
     lightboxModal.classList.remove('active');
     document.body.style.overflow = '';
+    if (lenis) lenis.start();
   }
 
   function showNextImage() {
