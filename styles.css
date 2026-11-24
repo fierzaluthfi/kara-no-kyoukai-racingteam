@@ -89,9 +89,10 @@ body::before {
 }
 
 .container {
-  max-width: 1320px;
+  width: 100%;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 clamp(20px, 3.5vw, 40px);
 }
 
 /* ================= Top Announcement Ticker ================= */
@@ -166,17 +167,19 @@ body::before {
   justify-content: space-between;
   height: 78px;
   width: 100%;
-  max-width: 100%;
-  padding: 0 32px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 3.5vw, 40px);
 }
 
 .brand-link {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: clamp(10px, 1.2vw, 14px);
   text-decoration: none;
   color: #fff;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .brand-link:hover {
@@ -184,7 +187,7 @@ body::before {
 }
 
 .brand-logo {
-  height: 48px;
+  height: clamp(40px, 3.5vw, 48px);
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
@@ -208,24 +211,26 @@ body::before {
 .brand-title {
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 1.05rem;
-  letter-spacing: 1.5px;
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  letter-spacing: 1.2px;
   color: #fff;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .brand-subtitle {
   font-family: var(--font-sub);
-  font-size: 0.75rem;
-  letter-spacing: 2px;
+  font-size: clamp(0.68rem, 0.8vw, 0.75rem);
+  letter-spacing: 1.8px;
   color: var(--color-racing-red);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .nav-list {
   display: flex;
   list-style: none;
-  gap: 28px;
+  gap: clamp(12px, 1.6vw, 26px);
   align-items: center;
 }
 
@@ -234,13 +239,14 @@ body::before {
   color: var(--color-racing-silver);
   font-family: var(--font-sub);
   font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 1.2px;
+  font-size: clamp(0.82rem, 0.9vw, 0.92rem);
+  letter-spacing: 1.1px;
   text-transform: uppercase;
   transition: var(--transition);
   position: relative;
   padding: 6px 0;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -293,6 +299,9 @@ body::before {
   color: #fff;
   border-left: 3px solid #ff4d4d;
   box-shadow: 0 4px 15px rgba(225, 6, 0, 0.35);
+  padding: 10px clamp(14px, 1.4vw, 22px);
+  font-size: clamp(0.8rem, 0.88vw, 0.9rem);
+  white-space: nowrap;
 }
 
 .btn-redbull:hover {
