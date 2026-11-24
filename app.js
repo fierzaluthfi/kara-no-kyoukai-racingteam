@@ -172,6 +172,31 @@ document.addEventListener('DOMContentLoaded', () => {
       ease: 'power3.out'
     });
 
+    // Machine Backdrop Text & Studio Showcase Entrance
+    gsap.from('.machine-backdrop-text', {
+      scrollTrigger: {
+        trigger: '.machine-showcase-visual',
+        start: 'top 80%',
+      },
+      opacity: 0,
+      scale: 0.9,
+      y: 20,
+      duration: 1.1,
+      ease: 'power3.out'
+    });
+
+    gsap.from('.showcase-rbr-sidebar', {
+      scrollTrigger: {
+        trigger: '.machine-showcase-visual',
+        start: 'top 80%',
+      },
+      opacity: 0,
+      x: 35,
+      duration: 0.9,
+      delay: 0.2,
+      ease: 'power3.out'
+    });
+
     // Partner Cards Staggered Entrance
     gsap.from('.partner-card', {
       scrollTrigger: {
