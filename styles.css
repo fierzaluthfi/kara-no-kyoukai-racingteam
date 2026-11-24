@@ -1155,16 +1155,16 @@ body::before {
   position: relative;
   z-index: 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
-  min-height: 480px;
+  min-height: 520px;
 }
 
 /* Giant Red Bull Style Backdrop Typography behind machine */
 .machine-backdrop-text {
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -1194,7 +1194,7 @@ body::before {
   filter: drop-shadow(0 0 50px rgba(225, 6, 0, 0.65));
 }
 
-/* Stage for transparent bike cutout */
+/* Stage for transparent bike cutout - positioned lower for text legibility */
 .showcase-stage {
   position: relative;
   z-index: 2;
@@ -1203,6 +1203,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 45px;
+  transform: translateY(22px);
 }
 
 .showcase-stage::after {
@@ -1413,10 +1415,16 @@ body::before {
     gap: 32px;
   }
   .showcase-stage-area {
-    min-height: 400px;
+    min-height: 420px;
+    align-items: flex-end;
   }
   .machine-backdrop-text {
+    top: 32%;
     font-size: clamp(4rem, 16vw, 9rem);
+  }
+  .showcase-stage {
+    margin-top: 36px;
+    transform: translateY(18px);
   }
   .showcase-rbr-sidebar {
     padding-left: 0;
@@ -1442,11 +1450,16 @@ body::before {
     align-items: flex-start;
   }
   .showcase-stage-area {
-    min-height: 300px;
+    min-height: 330px;
+    align-items: flex-end;
   }
   .machine-backdrop-text {
-    top: 50%;
+    top: 28%;
     font-size: clamp(3rem, 17vw, 6rem);
+  }
+  .showcase-stage {
+    margin-top: 28px;
+    transform: translateY(12px);
   }
   .showcase-rbr-sidebar {
     flex-direction: column;
