@@ -1135,18 +1135,30 @@ body::before {
 .showcase-bike-wrap {
   position: relative;
   z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 540px;
+  margin: 28px 0 24px;
+  background: radial-gradient(ellipse at 42% 55%, rgba(18, 30, 52, 0.75) 0%, rgba(6, 10, 18, 0.98) 78%);
+  border-radius: 14px;
+  padding: 40px 32px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 32px;
+}
+
+/* Stage Area (holds backdrop typography and bike) */
+.showcase-stage-area {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 100%;
-  min-height: 520px;
-  margin: 28px 0 24px;
-  background: radial-gradient(ellipse at 50% 55%, rgba(20, 32, 56, 0.65) 0%, rgba(8, 12, 22, 0.98) 75%);
-  border-radius: 12px;
-  padding: 40px 24px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  min-height: 480px;
 }
 
 /* Giant Red Bull Style Backdrop Typography behind machine */
@@ -1159,11 +1171,11 @@ body::before {
   align-items: baseline;
   justify-content: center;
   width: 100%;
-  font-family: var(--font-heading);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 900;
-  font-size: clamp(5.5rem, 16vw, 15.5rem);
+  font-size: clamp(5.2rem, 15vw, 14.5rem);
   line-height: 0.85;
-  letter-spacing: -2px;
+  letter-spacing: -4px;
   user-select: none;
   pointer-events: none;
   z-index: 1;
@@ -1173,13 +1185,13 @@ body::before {
 
 .backdrop-text-white {
   color: #ffffff;
-  filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.15));
+  filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.18));
 }
 
 .backdrop-text-red {
   color: var(--color-racing-red);
-  margin-left: 6px;
-  filter: drop-shadow(0 0 45px rgba(225, 6, 0, 0.55));
+  margin-left: 8px;
+  filter: drop-shadow(0 0 50px rgba(225, 6, 0, 0.65));
 }
 
 /* Stage for transparent bike cutout */
@@ -1187,7 +1199,7 @@ body::before {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1050px;
+  max-width: 920px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1209,16 +1221,129 @@ body::before {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 980px;
+  max-width: 900px;
   height: auto;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 25px rgba(92, 30, 122, 0.3));
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 20px rgba(92, 30, 122, 0.25));
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .showcase-bike-wrap:hover .showcase-bike-img {
   transform: translateY(-6px) scale(1.02);
+}
+
+/* Red Bull Racing Style Pilot & Telemetry Sidebar (Right) */
+.showcase-rbr-sidebar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-left: 28px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rbr-meta-block .rbr-label {
+  display: block;
+  font-family: var(--font-sub);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-racing-silver);
+  margin-bottom: 6px;
+}
+
+.rbr-pilot-name {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+.rbr-pilot-sub {
+  font-size: 0.84rem;
+  color: var(--color-racing-red);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.rbr-stats-group {
+  display: flex;
+  gap: 36px;
+}
+
+.rbr-stat-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.rbr-stat-label {
+  font-family: var(--font-sub);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-racing-silver);
+  margin-bottom: 4px;
+}
+
+.rbr-stat-val {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.rbr-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rbr-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-racing-red);
+  color: #ffffff;
+  font-family: var(--font-sub);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: 0 4px 18px rgba(225, 6, 0, 0.45);
+  width: fit-content;
+}
+
+.rbr-more-btn:hover {
+  background: var(--color-racing-red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(225, 6, 0, 0.65);
+}
+
+.rbr-dl-link {
+  font-family: var(--font-sub);
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+  color: var(--color-racing-silver);
+  text-decoration: none;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rbr-dl-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 /* Footer / Quick Telemetry Specs Bar */
@@ -1282,11 +1407,26 @@ body::before {
 
 @media (max-width: 1024px) {
   .showcase-bike-wrap {
-    padding: 30px 16px;
-    min-height: 420px;
+    grid-template-columns: 1fr;
+    padding: 32px 20px;
+    min-height: auto;
+    gap: 32px;
+  }
+  .showcase-stage-area {
+    min-height: 400px;
   }
   .machine-backdrop-text {
     font-size: clamp(4rem, 16vw, 9rem);
+  }
+  .showcase-rbr-sidebar {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 24px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
   }
   .showcase-quick-specs {
     grid-template-columns: repeat(2, 1fr);
@@ -1301,9 +1441,17 @@ body::before {
     flex-direction: column;
     align-items: flex-start;
   }
+  .showcase-stage-area {
+    min-height: 300px;
+  }
   .machine-backdrop-text {
-    top: 30%;
-    font-size: clamp(3.2rem, 18vw, 6rem);
+    top: 50%;
+    font-size: clamp(3rem, 17vw, 6rem);
+  }
+  .showcase-rbr-sidebar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
   .showcase-quick-specs {
     grid-template-columns: 1fr;
